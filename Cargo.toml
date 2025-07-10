@@ -1,7 +1,10 @@
 [package]
-name = "onellm_api_client"
-version = "0.1.0"
-edition = "2021"
+name = "onellm"
+version = "1.0.0-beta"
+edition = "2024"
+description = "Official rust crate to communicate with the OneLLM API in rust"
+license = "MIT"
+repository = "https://github.com/OneLLM-dev/onellm-crate.git"
 
 [dependencies]
 reqwest = { version = "0.12", features = ["json"] }

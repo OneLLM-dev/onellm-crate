@@ -7,13 +7,14 @@ This is a Rust client for interacting with the OneLLM API.
 Add this to your `Cargo.toml`:
 
 ```toml
-onellm_api_client = "0.1.0"
+onellm = "0.1.0"
 ```
 
 ## Example
 
 ```rust
-use onellm_api_client::input::{APIInput, Model, Message};
+use onellm::input::{APIInput, Model, Message};
+use onellm::anyhow;
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
