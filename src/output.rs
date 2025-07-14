@@ -16,4 +16,3 @@ pub struct LlmUsage {
     pub output_tokens: Option<u32>,
     pub total_tokens: Option<u32>,
 }
-

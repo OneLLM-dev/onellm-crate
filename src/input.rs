@@ -1,52 +1,164 @@
+#![allow(non_camel_case_types)]
+use crate::output::LlmUnifiedResponse;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub enum Model {
+    // ==== OpenAI ====
+    #[serde(rename = "GPT-4.1")]
     Gpt4_1,
+    #[serde(rename = "GPT-4.1-Mini")]
     Gpt4_1Mini,
+    #[serde(rename = "GPT-4.1-Nano")]
     Gpt4_1Nano,
+    #[serde(rename = "GPT-o3")]
     GptO3,
+    #[serde(rename = "GPT-o4-mini")]
     GptO4Mini,
+    #[serde(rename = "GPT-o3-pro")]
+    GptO3Pro,
+    #[serde(rename = "GPT-4o")]
+    Gpt4o,
+    #[serde(rename = "GPT-4o-mini")]
+    Gpt4oMini,
+    #[serde(rename = "GPT-o1")]
+    GptO1,
+    #[serde(rename = "GPT-o3-DeepResearch")]
+    GptO3DeepResearch,
+    #[serde(rename = "GPT-o3-Mini")]
+    GptO3Mini,
+    #[serde(rename = "GPT-o1-Mini")]
+    GptO1Mini,
+
+    // ==== Anthropic ====
+    #[serde(rename = "Opus-4")]
     ClaudeOpus4,
+    #[serde(rename = "Sonnet-4")]
     ClaudeSonnet4,
+    #[serde(rename = "Haiku-3.5")]
     ClaudeHaiku3_5,
+    #[serde(rename = "Opus-3")]
     ClaudeOpus3,
+    #[serde(rename = "Sonnet-3.7")]
     ClaudeSonnet3_7,
+    #[serde(rename = "Haiku-3")]
     ClaudeHaiku3,
+
+    // ==== DeepSeek ====
+    #[serde(rename = "DeepSeek-Reasoner")]
     DeepSeekR1,
+    #[serde(rename = "DeepSeek-Chat")]
     DeepSeekV3,
+
+    // ==== Gemini (Google) ====
+    #[serde(rename = "2.5-Flash-preview")]
     Gemini25FlashPreview,
+    #[serde(rename = "2.5-Pro-preview")]
     Gemini25ProPreview,
+    #[serde(rename = "2.0-Flash")]
     Gemini20Flash,
+    #[serde(rename = "2.0-Flash-lite")]
     Gemini20FlashLite,
+    #[serde(rename = "1.5-Flash")]
     Gemini15Flash,
+    #[serde(rename = "1.5-Flash-8B")]
     Gemini15Flash8B,
+    #[serde(rename = "1.5-Pro")]
     Gemini15Pro,
+
+    // ==== Mistral ====
+    #[serde(rename = "Mistral-Medium-3")]
+    MistralMedium3,
+    #[serde(rename = "Magistral-Medium")]
+    MagistralMedium,
+    #[serde(rename = "Codestral")]
+    Codestral,
+    #[serde(rename = "Devstral-Medium")]
+    DevstralMedium,
+    #[serde(rename = "Mistral-Saba")]
+    MistralSaba,
+    #[serde(rename = "Mistral-Large")]
+    MistralLarge,
+    #[serde(rename = "Pixtral-Large")]
+    PixtralLarge,
+    #[serde(rename = "Ministral-8B-24.10")]
+    Ministral8B_24_10,
+    #[serde(rename = "Ministral-3B-24.10")]
+    Ministral3B_24_10,
+    #[serde(rename = "Mistral-Small-3.2")]
+    MistralSmall3_2,
+    #[serde(rename = "Magistral-Small")]
+    MagistralSmall,
+    #[serde(rename = "Devstral-Small")]
+    DevstralSmall,
+    #[serde(rename = "Pixtral-12B")]
+    Pixtral12B,
+    #[serde(rename = "Mistral-NeMo")]
+    MistralNemo,
+    #[serde(rename = "Mistral-7B")]
+    Mistral7B,
+    #[serde(rename = "Mixtral-8x7B")]
+    Mixtral8x7B,
+    #[serde(rename = "Mixtral-8x22B")]
+    Mixtral8x22B,
 }
 
 impl Model {
     pub fn name(&self) -> &str {
         match self {
+            // ==== OpenAI ====
             Model::Gpt4_1 => "GPT-4.1",
             Model::Gpt4_1Mini => "GPT-4.1-Mini",
             Model::Gpt4_1Nano => "GPT-4.1-Nano",
             Model::GptO3 => "GPT-o3",
             Model::GptO4Mini => "GPT-o4-mini",
+            Model::GptO3Pro => "GPT-o3-pro",
+            Model::Gpt4o => "GPT-4o",
+            Model::Gpt4oMini => "GPT-4o-mini",
+            Model::GptO1 => "GPT-o1",
+            Model::GptO3DeepResearch => "GPT-o3-DeepResearch",
+            Model::GptO3Mini => "GPT-o3-Mini",
+            Model::GptO1Mini => "GPT-o1-Mini",
+
+            // ==== Anthropic ====
             Model::ClaudeOpus4 => "Opus-4",
             Model::ClaudeSonnet4 => "Sonnet-4",
             Model::ClaudeHaiku3_5 => "Haiku-3.5",
             Model::ClaudeOpus3 => "Opus-3",
             Model::ClaudeSonnet3_7 => "Sonnet-3.7",
             Model::ClaudeHaiku3 => "Haiku-3",
+
+            // ==== DeepSeek ====
             Model::DeepSeekR1 => "DeepSeek-Reasoner",
             Model::DeepSeekV3 => "DeepSeek-Chat",
-            Model::Gemini25FlashPreview => "Gemini25FlashPreview",
+
+            // ==== Gemini (Google) ====
+            Model::Gemini25FlashPreview => "2.5-Flash-preview",
             Model::Gemini25ProPreview => "2.5-Pro-preview",
             Model::Gemini20Flash => "2.0-Flash",
             Model::Gemini20FlashLite => "2.0-Flash-lite",
             Model::Gemini15Flash => "1.5-Flash",
             Model::Gemini15Flash8B => "1.5-Flash-8B",
             Model::Gemini15Pro => "1.5-Pro",
+
+            // ==== Mistral ====
+            Model::MistralMedium3 => "Mistral-Medium-3",
+            Model::MagistralMedium => "Magistral-Medium",
+            Model::Codestral => "Codestral",
+            Model::DevstralMedium => "Devstral-Medium",
+            Model::MistralSaba => "Mistral-Saba",
+            Model::MistralLarge => "Mistral-Large",
+            Model::PixtralLarge => "Pixtral-Large",
+            Model::Ministral8B_24_10 => "Ministral-8B-24.10",
+            Model::Ministral3B_24_10 => "Ministral-3B-24.10",
+            Model::MistralSmall3_2 => "Mistral-Small-3.2",
+            Model::MagistralSmall => "Magistral-Small",
+            Model::DevstralSmall => "Devstral-Small",
+            Model::Pixtral12B => "Pixtral-12B",
+            Model::MistralNemo => "Mistral-NeMo",
+            Model::Mistral7B => "Mistral-7B",
+            Model::Mixtral8x7B => "Mixtral-8x7B",
+            Model::Mixtral8x22B => "Mixtral-8x22B",
         }
     }
 }
@@ -150,12 +262,7 @@ pub struct APIInput {
 }
 
 impl APIInput {
-    pub fn new(
-        endpoint: String,
-        model: Model,
-        messages: Vec<Message>,
-        max_tokens: u32,
-    ) -> Self {
+    pub fn new(endpoint: String, model: Model, messages: Vec<Message>, max_tokens: u32) -> Self {
         Self {
             endpoint,
             model,
@@ -163,7 +270,7 @@ impl APIInput {
             max_tokens,
             temperature: None,
             stream: None,
-            top_p: 1.0, // Default value
+            top_p: 1.0, 
             stop_sequences: None,
             tools: None,
             contents: None,
@@ -182,10 +289,23 @@ impl APIInput {
             top_k: None,
         }
     }
+//    pub fn temperature(&mut self, temp: f64) {
+//        self.temperature = Some(temp);
+//    }
+//
+//    pub fn stop_sequences(&mut self, stop_sequences: Vec<String>) {
+//        self.stop_sequences = Some(stop_sequences);
+//    }
 
-        pub async fn send(self) -> anyhow::Result<crate::output::LlmUnifiedResponse> {
-        let client = crate::client::OneLLMClient::new(self.endpoint.clone());
-        let response = client.call_llm(&self).await?;
-        Ok(response)
+    pub async fn send(self) -> anyhow::Result<crate::output::LlmUnifiedResponse> {
+        let client = reqwest::Client::new();
+        let response = client
+            .post("https://onellm.dev/api")
+            .json(&self)
+            .send()
+            .await?;
+        let output = response.json::<LlmUnifiedResponse>().await?;
+
+        Ok(output)
     }
 }
