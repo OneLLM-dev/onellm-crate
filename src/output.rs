@@ -9,6 +9,7 @@ pub struct ApiResponse {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct LlmUnifiedResponse {
     pub role: Option<String>,
+    #[serde(alias = "output")]
     pub content: String,
     pub usage: Option<LlmUsage>,
     pub finish_reason: Option<String>,
