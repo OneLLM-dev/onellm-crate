@@ -269,8 +269,8 @@ impl APIInput {
             messages,
             max_tokens,
             temperature: None,
-            stream: None,
-            top_p: 1.0, 
+            stream: Some(false),
+            top_p: 1.0,
             stop_sequences: None,
             tools: None,
             contents: None,
@@ -289,22 +289,24 @@ impl APIInput {
             top_k: None,
         }
     }
-//    pub fn temperature(&mut self, temp: f64) {
-//        self.temperature = Some(temp);
-//    }
-//
-//    pub fn stop_sequences(&mut self, stop_sequences: Vec<String>) {
-//        self.stop_sequences = Some(stop_sequences);
-//    }
+    //    pub fn temperature(&mut self, temp: f64) {
+    //        self.temperature = Some(temp);
+    //    }
+    //
+    //    pub fn stop_sequences(&mut self, stop_sequences: Vec<String>) {
+    //        self.stop_sequences = Some(stop_sequences);
+    //    }
 
-    pub async fn send(self) -> anyhow::Result<crate::output::LlmUnifiedResponse> {
+    pub async fn send(self, apikey: String) -> anyhow::Result<crate::output::ApiResponse> {
         let client = reqwest::Client::new();
         let response = client
             .post("https://onellm.dev/api")
             .json(&self)
+            .bearer_auth(apikey)
             .send()
             .await?;
-        let output = response.json::<LlmUnifiedResponse>().await?;
+        let text = response.text().await?;
+        let output = serde_json::from_str(&text)?;
 
         Ok(output)
     }

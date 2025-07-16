@@ -1,9 +1,13 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
+pub struct ApiResponse {
+    pub code: u16,
+    pub output: LlmUnifiedResponse,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
 pub struct LlmUnifiedResponse {
-    pub provider: String,
-    pub model: String,
     pub role: Option<String>,
     pub content: String,
     pub usage: Option<LlmUsage>,

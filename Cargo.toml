@@ -1,6 +1,6 @@
 [package]
 name = "onellm"
-version = "1.0.0-beta"
+version = "1.0.0"
 edition = "2024"
 description = "Official rust crate to communicate with the OneLLM API in rust"
 license = "MIT"

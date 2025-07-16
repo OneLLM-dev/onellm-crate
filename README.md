@@ -7,33 +7,31 @@ This is a Rust client for interacting with the OneLLM API.
 Add this to your `Cargo.toml`:
 
 ```toml
-onellm = "0.1.0"
+onellm = "1.0.0"
 ```
 
 ## Example
 
 ```rust
-use onellm::input::{APIInput, Model, Message};
-use onellm::anyhow;
+use onellm::input::Message;
+
+mod input;
+mod output;
 
 #[tokio::main]
-async fn main() -> anyhow::Result<()> {
-    let input = APIInput::new(
-        "http://localhost:8000".to_string(),
-        Model::Gemini15Pro,
-        vec![
-            Message {
-                role: "user".to_string(),
-                content: "Hello, how are you?".to_string(),
-            },
-        ],
-        100,
-    );
-
-    let response = input.send().await?;
-
-    println!("Response: {:?}", response);
-
-    Ok(())
+async fn main() {
+    let output = input::APIInput::new(
+        "https://api.deepseek.com/chat/completions".to_string(),
+        input::Model::DeepSeekV3,
+        vec![Message {
+            role: "user".to_string(),
+            content: "hi there!".to_string(),
+        }],
+        200,
+    )
+    .send(String::from("YOUR API KEY HERE"))
+    .await
+    .expect("Error obtaining result");
+    println!("Output: {output:#?}");
 }
 ```
